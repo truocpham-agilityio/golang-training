@@ -16,6 +16,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// CreatePost controller is responsible for creating a new post.
 func CreatePost(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -59,6 +60,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusCreated, postCreated)
 }
 
+// GetPosts is responsible for getting all posts.
 func GetPosts(w http.ResponseWriter, r *http.Request) {
 	post := models.Post{}
 
@@ -71,6 +73,7 @@ func GetPosts(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusOK, posts)
 }
 
+// GetPost is responsible for getting a single post.
 func GetPost(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
@@ -91,6 +94,7 @@ func GetPost(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusOK, postReceived)
 }
 
+// UpdatePost is responsible for updating a post.
 func UpdatePost(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
@@ -164,6 +168,7 @@ func UpdatePost(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusOK, postUpdated)
 }
 
+// DeletePost is responsible for deleting a post.
 func DeletePost(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 

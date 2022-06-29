@@ -7,11 +7,14 @@ import (
 	"github.com/joho/godotenv"
 )
 
+// Config represents the server configuration
+// that includes database configuration and server port.
 type Config struct {
 	DB 		*DBConfig
 	Port 	string
 }
 
+// DBConfig represents the database configuration.
 type DBConfig struct {
 	DbDialect 	string
 	DbUsername 	string
@@ -21,6 +24,7 @@ type DBConfig struct {
 	DbName 		string
 }
 
+// GetConfig returns the server configuration.
 func GetConfig() *Config {
 	if err := godotenv.Load(); err != nil {
 		log.Fatalf("Error getting env, %v", err)

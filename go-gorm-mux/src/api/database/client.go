@@ -10,8 +10,10 @@ import (
 	"gorm.io/gorm"
 )
 
+// Declare an instance of our database connection.
 var DB *gorm.DB
 
+// Connect represents how to connect to the database with specific dialect.
 func Connect(config *config.Config) {
 	var err error
 
@@ -53,6 +55,7 @@ func Connect(config *config.Config) {
 	}
 }
 
+// Migrate represents migration of the database.
 func Migrate() {
 	DB.AutoMigrate(&models.User{}, &models.Post{})
 	log.Println("Database Migration Completed!")

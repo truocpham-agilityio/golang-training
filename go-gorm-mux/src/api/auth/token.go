@@ -13,6 +13,7 @@ import (
 	jwt "github.com/dgrijalva/jwt-go"
 )
 
+// CreateToken generates a new JWT token and returns it.
 func CreateToken(user_id uint32) (string, error) {
 	claims := jwt.MapClaims{}
 	claims["authorized"] = true
@@ -24,6 +25,7 @@ func CreateToken(user_id uint32) (string, error) {
 	return token.SignedString([]byte(os.Getenv("API_SECRET")))
 }
 
+// TokenValid checks if the token is valid.f
 func TokenValid(r *http.Request) error {
 	tokenString := ExtractToken(r)
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
@@ -43,6 +45,7 @@ func TokenValid(r *http.Request) error {
 	return nil
 }
 
+// ExtractToken extracts the token from the request header.
 func ExtractToken(r *http.Request) string {
 	keys := r.URL.Query()
 	token := keys.Get("token")
@@ -58,6 +61,7 @@ func ExtractToken(r *http.Request) string {
 	return ""
 }
 
+// ExtractTokenID returns the user ID from the token.
 func ExtractTokenID(r *http.Request) (uint32, error) {
 	tokenString := ExtractToken(r)
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
@@ -82,7 +86,7 @@ func ExtractTokenID(r *http.Request) (uint32, error) {
 	return 0, nil
 }
 
-// Pretty display the claims licely in the terminal
+// Pretty display the claims list in a human readable format.
 func Pretty(data interface{}) {
 	b, err := json.MarshalIndent(data, "", " ")
 	if err != nil {

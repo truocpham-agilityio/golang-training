@@ -16,6 +16,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// CreateUser controller is responsible for creating a new user.
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -48,6 +49,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusCreated, userCreated)
 }
 
+// GetUsers controller is responsible for getting all users.
 func GetUsers(w http.ResponseWriter, r *http.Request) {
 	user := models.User{}
 
@@ -79,6 +81,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusOK, userGotten)
 }
 
+// UpdateUser controller is responsible for updating a user.
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	
@@ -129,6 +132,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusOK, updatedUser)
 }
 
+// DeleteUser controller is responsible for deleting a user.
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	user := models.User{}

@@ -7,6 +7,7 @@ import (
 	"net/http"
 )
 
+// SetMiddlewareJSON sets the Content-Type to application/json in the response header.
 func SetMiddlewareJSON(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
@@ -14,6 +15,7 @@ func SetMiddlewareJSON(next http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
+// SetMiddlewareAuthentication sets the authentication token in the request header.
 func SetMiddlewareAuthentication(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		err := auth.TokenValid(r)

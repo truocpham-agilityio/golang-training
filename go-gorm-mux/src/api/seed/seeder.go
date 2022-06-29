@@ -7,6 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// Represents the users sample data.
 var users = []models.User{
 	models.User{
 		Name: 	  "User 1",
@@ -20,6 +21,7 @@ var users = []models.User{
 	},
 }
 
+// Represents the posts sample data.
 var posts = []models.Post{
 	models.Post{
 		Title:   "Title 1",
@@ -31,6 +33,7 @@ var posts = []models.Post{
 	},
 }
 
+// Load represents seeding of the database.
 func Load(db *gorm.DB) {
 	err := db.Debug().Migrator().DropTable(&models.Post{}, &models.User{})
 

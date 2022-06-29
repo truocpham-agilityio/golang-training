@@ -31,10 +31,12 @@ func main() {
 	seed.Load(database.DB)
 
 	// Start the server
-	log.Printf(fmt.Sprintf("Starting Server on port %s\n", config.Port))
+	msg := fmt.Sprintf("Server running on port %s", config.Port)
+	log.Printf("%s\n", msg)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%v", config.Port), router))
 }
 
+// RegisterRoutes register all available routes for the API.
 func RegisterRoutes(router *mux.Router) {
 	// Home Route
 	router.HandleFunc("/", middlewares.SetMiddlewareJSON(controllers.Home)).Methods("GET")
