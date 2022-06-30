@@ -2,8 +2,8 @@ package middlewares
 
 import (
 	"errors"
-	"go-gorm-mux/src/api/auth"
-	"go-gorm-mux/src/api/responses"
+	"go-gorm-mux/api/auth"
+	"go-gorm-mux/api/responses"
 	"net/http"
 )
 

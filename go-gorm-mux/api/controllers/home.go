@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"go-gorm-mux/src/api/responses"
+	"go-gorm-mux/api/responses"
 	"net/http"
 )
 

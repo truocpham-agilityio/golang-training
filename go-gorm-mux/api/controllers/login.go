@@ -5,11 +5,11 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"go-gorm-mux/src/api/auth"
-	"go-gorm-mux/src/api/database"
-	"go-gorm-mux/src/api/models"
-	"go-gorm-mux/src/api/responses"
-	"go-gorm-mux/src/api/utils/formaterror"
+	"go-gorm-mux/api/auth"
+	"go-gorm-mux/api/database"
+	"go-gorm-mux/api/models"
+	"go-gorm-mux/api/responses"
+	"go-gorm-mux/api/utils/formaterror"
 
 	"golang.org/x/crypto/bcrypt"
 )

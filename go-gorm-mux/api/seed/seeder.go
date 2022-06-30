@@ -1,7 +1,7 @@
 package seed
 
 import (
-	"go-gorm-mux/src/api/models"
+	"go-gorm-mux/api/models"
 	"log"
 
 	"gorm.io/gorm"

@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"go-gorm-mux/src/api/config"
-	"go-gorm-mux/src/api/controllers"
-	"go-gorm-mux/src/api/database"
-	"go-gorm-mux/src/api/middlewares"
-	"go-gorm-mux/src/api/seed"
+	"go-gorm-mux/api/config"
+	"go-gorm-mux/api/controllers"
+	"go-gorm-mux/api/database"
+	"go-gorm-mux/api/middlewares"
+	"go-gorm-mux/api/seed"
 	"log"
 	"net/http"
 

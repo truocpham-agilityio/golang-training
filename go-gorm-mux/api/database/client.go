@@ -2,8 +2,8 @@ package database
 
 import (
 	"fmt"
-	"go-gorm-mux/src/api/config"
-	"go-gorm-mux/src/api/models"
+	"go-gorm-mux/api/config"
+	"go-gorm-mux/api/models"
 	"log"
 
 	"gorm.io/driver/sqlite"
