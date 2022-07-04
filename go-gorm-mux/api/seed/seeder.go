@@ -9,12 +9,12 @@ import (
 
 // Represents the users sample data.
 var users = []models.User{
-	models.User{
+	{
 		Name: 	  "User 1",
 		Email:    "user1@gmail.com",
 		Password: "password",
 	},
-	models.User{
+	{
 		Name: 	  "User 2",
 		Email:    "user2@gmail.com",
 		Password: "password",
@@ -23,11 +23,11 @@ var users = []models.User{
 
 // Represents the posts sample data.
 var posts = []models.Post{
-	models.Post{
+	{
 		Title:   "Title 1",
 		Content: "Hello world 1",
 	},
-	models.Post{
+	{
 		Title:   "Title 2",
 		Content: "Hello world 2",
 	},

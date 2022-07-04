@@ -25,7 +25,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	post := models.Post{}
-	
+
 	if err := json.Unmarshal(body, &post); err != nil {
 		responses.ERROR(w, http.StatusUnprocessableEntity, err)
 		return
@@ -43,12 +43,12 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
 		return
 	}
-	
+
 	if uid != post.AuthorID {
 		responses.ERROR(w, http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
 		return
 	}
-	
+
 	postCreated, err := post.SavePost(database.DB)
 	if err != nil {
 		formattedError := formaterror.FormatError(err.Error())
@@ -114,7 +114,7 @@ func UpdatePost(w http.ResponseWriter, r *http.Request) {
 
 	// Check if the post exist
 	post := models.Post{}
-	
+
 	err = database.DB.Debug().Model(models.Post{}).Where("id = ?", pid).Take(&post).Error
 	if err != nil {
 		responses.ERROR(w, http.StatusNotFound, errors.New("Post not found"))
@@ -126,7 +126,7 @@ func UpdatePost(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
 		return
 	}
-	
+
 	// Read the data posted
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -149,13 +149,13 @@ func UpdatePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	postUpdate.Prepare()
-	
+
 	if err := postUpdate.Validate(); err != nil {
 		responses.ERROR(w, http.StatusUnprocessableEntity, err)
 		return
 	}
 
-	postUpdate.ID = post.ID 
+	postUpdate.ID = post.ID
 
 	postUpdated, err := postUpdate.UpdatePost(database.DB)
 
@@ -164,7 +164,7 @@ func UpdatePost(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusInternalServerError, formattedError)
 		return
 	}
-	
+
 	responses.JSON(w, http.StatusOK, postUpdated)
 }
 
@@ -199,7 +199,7 @@ func DeletePost(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
 		return
 	}
-	
+
 	_, err = post.DeletePost(database.DB, pid, uid)
 	if err != nil {
 		responses.ERROR(w, http.StatusBadRequest, err)

@@ -43,7 +43,7 @@ func (p *Post) Validate() error {
 	if p.AuthorID < 1 {
 		return errors.New("required Author")
 	}
-	
+
 	return nil
 }
 
@@ -60,7 +60,7 @@ func (p *Post) SavePost(db *gorm.DB) (*Post, error) {
 			return &Post{}, err
 		}
 	}
-	
+
 	return p, nil
 }
 
@@ -106,14 +106,14 @@ func (p *Post) UpdatePost(db *gorm.DB) (*Post, error) {
 	if err != nil {
 		return &Post{}, err
 	}
-	
+
 	if p.ID != 0 {
 		err = db.Debug().Model(&User{}).Where("id = ?", p.AuthorID).Take(&p.Author).Error
 		if err != nil {
 			return &Post{}, err
 		}
 	}
-	
+
 	return p, nil
 }
 
@@ -127,6 +127,6 @@ func (p *Post) DeletePost(db *gorm.DB, pid uint64, uid uint32) (int64, error) {
 		}
 		return 0, db.Error
 	}
-	
+
 	return db.RowsAffected, nil
 }

@@ -6,20 +6,21 @@ import (
 )
 
 func FormatError(err string) error {
-
 	if strings.Contains(err, "name") {
-		return errors.New("Name Already Taken")
+		return errors.New("name already taken")
 	}
 
 	if strings.Contains(err, "email") {
-		return errors.New("Email Already Taken")
+		return errors.New("email already taken")
 	}
 
 	if strings.Contains(err, "title") {
-		return errors.New("Title Already Taken")
+		return errors.New("title already taken")
 	}
+
 	if strings.Contains(err, "hashedPassword") {
-		return errors.New("Incorrect Password")
+		return errors.New("incorrect password")
 	}
-	return errors.New("Incorrect Details")
+
+	return errors.New("incorrect details")
 }
