@@ -9,6 +9,7 @@ import (
 	"go-gorm-mux/api/models"
 	"go-gorm-mux/api/responses"
 	"go-gorm-mux/api/utils/formaterror"
+	"go-gorm-mux/api/utils/pagination"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -53,13 +54,29 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 func GetUsers(w http.ResponseWriter, r *http.Request) {
 	user := models.User{}
 
-	users, err := user.FindAllUsers(database.DB)
+	// Generate pagination parameters.
+	pagination := pagination.GeneratePaginationFromRequest(r)
+
+	// Get all users with pagination.
+	users, err := user.FindAllUsers(database.DB, &pagination)
 	if err != nil {
 		responses.ERROR(w, http.StatusInternalServerError, err)
 		return
 	}
 
-	responses.JSON(w, http.StatusOK, users)
+	// Build pagination response.
+	result := responses.ResponseJSON{
+		Data: users,
+		Meta: responses.Meta{
+			Pagination: responses.Pagination{
+				Total:  int(pagination.TotalRows),
+				Limit:  pagination.Limit,
+				Offset: pagination.GetOffset(),
+			},
+		},
+	}
+
+	responses.JSON(w, http.StatusOK, result)
 }
 
 func GetUser(w http.ResponseWriter, r *http.Request) {

@@ -2,6 +2,7 @@ package models
 
 import (
 	"errors"
+	"go-gorm-mux/api/utils/pagination"
 	"html"
 	"log"
 	"strings"
@@ -109,17 +110,22 @@ func (u *User) SaveUser(db *gorm.DB) (*User, error) {
 	return u, nil
 }
 
-// FindAllUsers returns all users.
-// TODO: Pagination.
-func (u *User) FindAllUsers(db *gorm.DB) (*[]User, error) {
+// FindAllUsers returns all users support by pagination.
+func (u *User) FindAllUsers(db *gorm.DB, p *pagination.Pagination) (*[]User, error) {
 	users := []User{}
-	err := db.Debug().Model(&User{}).Limit(100).Find(&users).Error
+	offset := (p.Page - 1) * p.Limit
+	queryBuilder := db.Limit(p.Limit).Offset(offset).Order(p.Sort)
+	result := queryBuilder.Model(&User{}).Find(&users)
 
-	if err != nil {
-		return &[]User{}, err
+	var totalRows int64
+	db.Model(&User{}).Count(&totalRows)
+	p.TotalRows = totalRows
+
+	if err := result.Error; err != nil {
+		return nil, err
 	}
 
-	return &users, err
+	return &users, nil
 }
 
 // FindUserByID returns a user by ID.

@@ -6,6 +6,24 @@ import (
 	"net/http"
 )
 
+// ResponseJSON is a struct that holds the response data.
+type ResponseJSON struct {
+	Data interface{} `json:"data"`
+	Meta Meta          `json:"meta"`
+}
+
+// Meta is a struct that holds the metadata information.
+type Meta struct {
+	Pagination Pagination `json:"pagination"`
+}
+
+// Pagination is a struct that holds pagination information.
+type Pagination struct {
+	Total  int `json:"total"`
+	Limit  int `json:"limit"`
+	Offset int `json:"offset"`
+}
+
 // JSON sends a JSON response to the client.
 func JSON(w http.ResponseWriter, statusCode int, data interface{}) {
 	w.WriteHeader(statusCode)
