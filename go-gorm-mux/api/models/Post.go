@@ -2,6 +2,7 @@ package models
 
 import (
 	"errors"
+	"go-gorm-mux/api/utils/pagination"
 	"html"
 	"strings"
 	"time"
@@ -65,21 +66,31 @@ func (p *Post) SavePost(db *gorm.DB) (*Post, error) {
 }
 
 // FindAllPosts represents the finding of all post model data.
-func (p *Post) FindAllPosts(db *gorm.DB) (*[]Post, error) {
+func (p *Post) FindAllPosts(db *gorm.DB, pagination *pagination.Pagination) (*[]Post, error) {
 	var err error
 	posts := []Post{}
-	err = db.Debug().Model(&Post{}).Limit(100).Find(&posts).Error
+	offset := (pagination.Page - 1) * pagination.Limit
+	queryBuilder := db.Limit(pagination.Limit).Offset(offset).Order(pagination.Sort)
+	result := queryBuilder.Model(&Post{}).Find(&posts)
+
+	var totalRows int64
+	db.Model(&Post{}).Count(&totalRows)
+	pagination.TotalRows = totalRows
+
+	err = result.Error
 	if err != nil {
-		return &[]Post{}, err
+		return nil, err
 	}
+
 	if len(posts) > 0 {
 		for i := range posts {
 			err := db.Debug().Model(&User{}).Where("id = ?", posts[i].AuthorID).Take(&posts[i].Author).Error
 			if err != nil {
-				return &[]Post{}, err
+				return nil, err
 			}
 		}
 	}
+
 	return &posts, nil
 }
 

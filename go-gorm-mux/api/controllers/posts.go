@@ -9,6 +9,7 @@ import (
 	"go-gorm-mux/api/models"
 	"go-gorm-mux/api/responses"
 	"go-gorm-mux/api/utils/formaterror"
+	"go-gorm-mux/api/utils/pagination"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -64,13 +65,29 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 func GetPosts(w http.ResponseWriter, r *http.Request) {
 	post := models.Post{}
 
-	posts, err := post.FindAllPosts(database.DB)
+	// Generate pagination parameters.
+	pagination := pagination.GeneratePaginationFromRequest(r)
+
+	// Get the posts from the database.
+	posts, err := post.FindAllPosts(database.DB, &pagination)
 	if err != nil {
 		responses.ERROR(w, http.StatusInternalServerError, err)
 		return
 	}
 
-	responses.JSON(w, http.StatusOK, posts)
+	// Build the response.
+	result := responses.ResponseJSON{
+		Data: posts,
+		Meta: responses.Meta{
+			Pagination: responses.Pagination{
+				Total:  int(pagination.TotalRows),
+				Limit:  pagination.Limit,
+				Offset: pagination.GetOffset(),
+			},
+		},
+	}
+
+	responses.JSON(w, http.StatusOK, result)
 }
 
 // GetPost is responsible for getting a single post.
