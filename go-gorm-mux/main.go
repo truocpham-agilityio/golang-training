@@ -24,8 +24,11 @@ func main() {
 	// Initialize the router
 	router := mux.NewRouter().StrictSlash(true)
 
+	// Create API version 1
+	var apiVersion1 = router.PathPrefix("/api/v1").Subrouter()
+
 	// Register the routes
-	RegisterRoutes(router)
+	RegisterRoutes(apiVersion1)
 
 	// Seed initial data for the database
 	seed.Load(database.DB)
@@ -33,7 +36,7 @@ func main() {
 	// Start the server
 	msg := fmt.Sprintf("Server running on port %s", config.Port)
 	log.Printf("%s\n", msg)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%v", config.Port), router))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%v", config.Port), apiVersion1))
 }
 
 // RegisterRoutes register all available routes for the API.
